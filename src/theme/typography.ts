@@ -1,5 +1,8 @@
 export const typography = {
-  fontFamily: 'System',
+  fontFamily: {
+    title: 'Poppins',
+    body: 'PT Sans',
+  },
   fontSize: {
     small: 14,
     medium: 16,

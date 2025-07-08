@@ -1,6 +1,15 @@
 import { create } from 'zustand';
 
-export const useAuthStore = create(set => ({
+interface AuthState {
+  user: any;
+  profile: any;
+  setUser: (user: any) => void;
+  setProfile: (profile: any) => void;
+}
+
+export const useAuthStore = create<AuthState>(set => ({
   user: null,
-  setUser: (user: any) => set({ user }),
+  profile: null,
+  setUser: (user) => set({ user }),
+  setProfile: (profile) => set({ profile }),
 }));
