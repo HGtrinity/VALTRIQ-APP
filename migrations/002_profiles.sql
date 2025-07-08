@@ -4,6 +4,8 @@ create table if not exists profiles (
   email text unique,
   name text,
   avatar_url text,
+  recording_consent boolean default false, -- consentimento de gravação
+  recording_consent_at timestamptz,       -- data/hora do consentimento
   created_at timestamptz default now(),
   updated_at timestamptz default now()
 );

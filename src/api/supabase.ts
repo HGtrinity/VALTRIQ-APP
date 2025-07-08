@@ -58,6 +58,23 @@ export const updateConsultationStatus = async (id, status) => {
   return { data, error };
 };
 
+
+// Function to update recording consent for a consultation
+export const updateConsultationConsent = async (
+  id: string,
+  consent: boolean,
+  consentAt: string | Date
+) => {
+  const { data, error } = await supabase
+    .from('consultations')
+    .update({
+      recording_consent: consent,
+      recording_consent_at: consentAt,
+    })
+    .eq('id', id);
+  return { data, error };
+};
+
 // Function to fetch consultations
 export const fetchConsultations = async () => {
   const { data, error } = await supabase
@@ -68,7 +85,7 @@ export const fetchConsultations = async () => {
 };
 
 // Function to fetch reports by consultation ID
-export const fetchReportsByConsultationId = async (consultationId) => {
+export const fetchReportsByConsultationId = async (consultationId: string) => {
   const { data, error } = await supabase
     .from('reports')
     .select('*')

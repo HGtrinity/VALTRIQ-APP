@@ -1,6 +1,6 @@
 
 import React, { useEffect, useState } from 'react';
-import { View, Text, Button, TextInput, ScrollView, StyleSheet, Alert } from 'react-native';
+import { View, Text, Button, TextInput, ScrollView, StyleSheet, Alert, ActivityIndicator } from 'react-native';
 import { supabase } from '@api/supabase';
 import { useConsultStore } from '@state/consultationStore';
 
@@ -43,20 +43,33 @@ export default function ReviewScreen({ navigation }: any) {
   };
 
   const handleApprove = async () => {
-    // Atualiza o relatório editado
-    const { error: reportError } = await supabase
-      .from('reports')
-      .update({ soap: fields })
-      .eq('consultation_id', current.id);
-    if (reportError) {
-      Alert.alert('Erro', 'Não foi possível salvar o relatório.');
-      return;
+    try {
+      // Atualiza o relatório editado
+      const { error: reportError } = await supabase
+        .from('reports')
+        .update({ soap: fields })
+        .eq('consultation_id', current.id);
+      if (reportError) {
+        Alert.alert('Erro', 'Não foi possível salvar o relatório.');
+        return;
+      }
+      const { error: statusError } = await supabase.from('consultations').update({ status: 'done' }).eq('id', current.id);
+      if (statusError) {
+        Alert.alert('Erro', 'Não foi possível finalizar a consulta.');
+        return;
+      }
+      navigation.replace('Home');
+    } catch (e: any) {
+      Alert.alert('Erro inesperado', e?.message || 'Tente novamente.');
     }
-    await supabase.from('consultations').update({ status: 'done' }).eq('id', current.id);
-    navigation.replace('Home');
   };
 
-  if (loading) return <Text>Carregando...</Text>;
+  if (loading) return (
+    <View style={{ flex: 1, justifyContent: 'center', alignItems: 'center' }}>
+      <ActivityIndicator size="large" color="#498ECD" />
+      <Text style={{ marginTop: 16 }}>Carregando...</Text>
+    </View>
+  );
 
   return (
     <ScrollView contentContainerStyle={styles.container}>
