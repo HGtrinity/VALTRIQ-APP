@@ -1,3 +1,32 @@
+# See https://reactnative.dev/docs/environment-setup#adding-a-.gitignore
+# React Native
+node_modules/
+build/
+android/app/build/
+ios/Pods/
+*.log
+*.lock
+.expo/
+.expo-shared/
+.env
+.env.*
+# Supabase
+.supabase/
+# VSCode
+.vscode/
+# OS
+.DS_Store
+Thumbs.db
+# Test/coverage
+coverage/
+# Others
+*.keystore
+*.jks
+*.p8
+*.p12
+*.key
+*.crt
+*.pem
 # Environment variables
 .env
 .env.*
